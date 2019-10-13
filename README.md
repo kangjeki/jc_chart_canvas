@@ -1,6 +1,8 @@
 # jc_chart
 chart project
 
+<img src="chart.png" style="width: 500px;">
+
 # use
 function and target id
 
