@@ -219,7 +219,7 @@
 
 			// set text indikator value data
 			indGraphY : function() {
-				let drawPosH 	=  cvH-spcB,
+				let drawPosH 	= cvH-spcB,
 					indGraph 	= 0;
 				for ( let i = 0; i < countLineX; i++) {
 					draw.text( indGraph, spcL - 35, drawPosH + 2, "#393A3B", 12);
@@ -240,47 +240,49 @@
 
 			// set data and value
 			data : function(sec) {
-				let startCol 	=  spcR;
+				let startCol 	= spcR;
 				let barColor 	= ["#3CA5E1", "#8C25AE", "#189326", "#D90C0C", "#EEB210"];
 				let rc 			= 0;
 				for ( let i = 0; i < valData.length; i++) {
 					let setData 	= (cvH-spcB);
 
-					if ( (valData[i] - sec) > 0 ) {
-						setData = (cvH-spcB) - ( (valData[i] - sec) * (blockRow/stepRangeDataRow) );
+					if ( (valData[i] / sec) > 0 ) {
+						setData = (cvH-spcB) - ( (valData[i] / sec) * (blockRow/stepRangeDataRow) );
 					}
 					else {
 						setData = (cvH-spcB);
 					}
 					if (rc >= barColor.length) {rc = 0;}
 					draw.line( startCol + 50, cvH-spcB, startCol + 50, setData, barColor[rc], 20);
-					draw.text( Math.ceil(valData[i] - sec), startCol + 45, setData - 5, barColor[rc], 12);
+					draw.text( Math.ceil(valData[i] / sec), startCol + 45, setData - 5, barColor[rc], 12);
 					startCol 	+= blockCol;
 					rc 			+= 1;
 				}
+			},
+			title : function() {
+				let title 	= cop.title,
+				subtitle 	= cop.subtitle;
+				draw.text(title, 50, 30, "#000", 20);
+				draw.text(subtitle, 50, 50, "#000", 15);	
 			}
 		}
 
 		// start chart ------------------------------------------------------------------------
-		let sec = stepRangeDataRow;
+		let sec = 20;
 		let animateChart = setInterval(function() {
-			if (sec <= 0) {
+			if (sec <= 1) {
 				clearInterval(animateChart);
-				sec = 0;
+				sec = 1;
 			}
 			ct.clearRect(0, 0, cvW, cvH);
-
-			let title 	= cop.title,
-			subtitle 	= cop.subtitle;
-			draw.text(title, 50, 30, "#000", 20);
-			draw.text(subtitle, 50, 50, "#000", 15);
 
 			object.lineX();
 			object.indGraphY();
 			object.indGraphX();
 			object.data(sec);
+			object.title();
 
-			sec -= (stepRangeDataRow / 200) * 1;
-		}, 0);
+			sec -= 1;
+		}, 50);
 	}
 }());
