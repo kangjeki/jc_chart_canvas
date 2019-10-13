@@ -268,7 +268,7 @@
 		}
 
 		// start chart ------------------------------------------------------------------------
-		let sec = 20;
+		let sec = 10;
 		let animateChart = setInterval(function() {
 			if (sec <= 1) {
 				clearInterval(animateChart);
